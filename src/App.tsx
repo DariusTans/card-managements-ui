@@ -13,10 +13,12 @@ function App(): ReactElement {
   const [formData, setFormData] = useState<FormData>({ name: '', description: '', files: [] });
   const [knowledgeData, setKnowledgeData] = useState<Knowledge[]>([]);
 
+  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:8000';
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:8000/get_data');
+        const response = await fetch(`${API_BASE_URL}/get_data`);
         if (!response.ok) {
           throw new Error('Failed to fetch data');
         }
@@ -56,7 +58,7 @@ function App(): ReactElement {
 
     try {
       const response = await fetch(
-        `http://localhost:8000/upload?namedoc=${formData.name}&description_doc=${formData.description}`,
+        `${API_BASE_URL}/upload?namedoc=${formData.name}&description_doc=${formData.description}`,
         {
           method: 'POST',
           body: form,
@@ -85,7 +87,7 @@ function App(): ReactElement {
     }
 
     try {
-      const response = await fetch(`http://localhost:8000/remove_data?id=${id}`, {
+      const response = await fetch(`${API_BASE_URL}/remove_data?id=${id}`, {
         method: 'DELETE',
       });
 
